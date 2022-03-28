@@ -1,0 +1,27 @@
+version: '3'
+
+services:
+
+    mariadb:
+        image: mariadb:10.8.2
+        container_name: local_mariadb
+        environment:
+            - MYSQL_ROOT_PASSWORD=root
+            - MYSQL_USER=local_base
+            - MYSQL_DATABASE=local_base
+            - MYSQL_PASSWORD=local
+        ports:
+            - 9802:3306
+        volumes:
+            - mariadb_data:/var/lib/mysql
+
+    phpmyadmin:
+        image: phpmyadmin/phpmyadmin
+        container_name: local_phpmyadmin
+        environment:
+            - PMA_HOST=local_mariadb
+            - UPLOAD_LIMIT=5242880000
+        ports:
+            - 9803:80
+volumes:
+    mariadb_data:
